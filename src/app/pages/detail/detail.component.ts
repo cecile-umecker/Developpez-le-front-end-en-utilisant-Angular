@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-detail',
@@ -8,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrl: './detail.component.scss'
 })
 export class DetailComponent {
+  constructor(private location: Location) {}
 
+  goBack(): void {
+    this.location.back();
+  }
 }
