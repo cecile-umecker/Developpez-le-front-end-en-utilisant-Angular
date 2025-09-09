@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { OlympicService } from 'src/app/core/services/olympic.service';
 
 @Component({
   selector: 'app-detail',
@@ -10,16 +11,27 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './detail.component.scss'
 })
 export class DetailComponent implements OnInit {
-  constructor(private location: Location, private route: ActivatedRoute) {}
+  public numberOfParticipations = 0;
+  public totalNumberOfMedals = 0;
+  public totalNumberOfAthletes = 0;
+  public country: string = '';
+
+  constructor(private location: Location, private route: ActivatedRoute, private olympicService: OlympicService) {}
 
   ngOnInit(): void {
-    // Récupérer les paramètres de la requête ici
     this.route.queryParams.subscribe(params => {
-      const country = params['country'];
-      console.log(country);
+      this.country = params['country'];
     });
+    this.setCountryStats(this.country)
   }
 
+  setCountryStats(country: string): void {
+    this.olympicService.getCountryDetails(country).subscribe(countryData => {
+      this.numberOfParticipations = countryData?.participations.length || 0;
+      this.totalNumberOfMedals = countryData?.participations.reduce((sum, p) => sum + (p.medalsCount ?? 0), 0) ?? 0;
+      this.totalNumberOfAthletes = countryData?.participations.reduce((sum, p) => sum + (p.athleteCount ?? 0), 0) ?? 0;
+    });
+  }
 
   goBack(): void {
     this.location.back();

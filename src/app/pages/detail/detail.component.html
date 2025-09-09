@@ -1,2 +1,44 @@
+
+<h2 class="title">Olympic games app</h2>
+<hr />
 <button (click)="goBack()"> <- Retour</button>
-<p>detail works!</p>
+
+<div class="subtitle">
+  <p>{{ country }}</p>
+</div>
+
+<div class="statistics">
+  <div class="stats">
+    <p>Number of entries</p>
+    <span class="stats-value">{{ numberOfParticipations }}</span>
+  </div>
+  <div class="stats">
+    <p>Total number of medals</p>
+    <span class="stats-value">{{ totalNumberOfMedals }}</span>
+  </div>
+  <div class="stats">
+    <p>Total number of athletes</p>
+    <span class="stats-value">{{ totalNumberOfAthletes }}</span>
+  </div>
+</div>
+
+<!-- <div class="chart-wrapper">
+  <div class="chart-container">
+    <canvas baseChart
+            [data]="pieChartData"
+            [type]="pieChartType"
+            [options]="pieChartOptions"
+            [plugins]="[labelConnectorPlugin]"
+            (chartClick)="onChartClick($event)">
+    </canvas>
+  </div>
+</div>
+
+
+<ng-container *ngIf="olympics$ | async as olympics">
+  <div *ngIf="olympics === undefined">Chargement...</div>
+  <div *ngIf="olympics === null">Erreur lors du chargement</div>
+  <div *ngIf="olympics">
+     <p>{{ olympics.length }} data loaded</p>
+  </div>
+</ng-container> -->
