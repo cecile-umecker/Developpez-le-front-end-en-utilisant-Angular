@@ -55,6 +55,7 @@
 .chart-container {
   position: relative;
   width: 100%;
-  max-width: 600px; /* limite la taille max */
-  aspect-ratio: 1/1; /* garde un carré */
+  max-width: 500px; /* limite la taille max */
+  max-height: 800px;
+  margin: 0 auto;
 }
