@@ -42,4 +42,23 @@ export class OlympicService {
       }),
     );
   }
+
+  getNumberOfCountries() {
+    return this.olympics$.asObservable().pipe(
+      map((olympics) => (olympics ? olympics.length : 0))
+    );
+  }
+
+  getNumberOfJOs() {
+    return this.olympics$.asObservable().pipe(
+      map((olympics) => {
+        if (!olympics) return 0;
+        const uniqueYears = new Set<number>();
+        olympics.forEach((country) => {
+          country.participations.forEach((p) => uniqueYears.add(p.year));
+        });
+        return uniqueYears.size;
+      })
+    );  
+  }
 }
