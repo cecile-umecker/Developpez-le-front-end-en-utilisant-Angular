@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ChartType, ChartData, ChartConfiguration } from 'chart.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,7 @@ import { ChartType, ChartData, ChartConfiguration } from 'chart.js';
 })
 export class HomeComponent implements OnInit {
   public olympics$!: Observable<Olympic[] | null | undefined>;
-  public medalsByCountry$!: Observable<{ country: string; totalMedals: number }[] | null | undefined>;
+  public medalsByCountry$!: Observable<{ country: string; totalMedals: number; id: number }[] | null | undefined>;
   public pieChartLabels: string[] = [];
   public pieChartData: ChartData<'pie', number[], string> = {
     labels: [],
@@ -102,13 +103,14 @@ export class HomeComponent implements OnInit {
   public numberOfCountries$!: Observable<number>;
 
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
    // this.olympics$ = this.olympicService.getOlympics();
     this.olympicService.loadInitialData().subscribe();
     this.olympicService.getTotalMedalsByCountry().subscribe((data) => {
       if (data) {
+        console.log(data);
         this.pieChartLabels = data.map(d => d.country);
         this.pieChartData = {
           labels: data.map(d => d.country),
@@ -138,5 +140,14 @@ export class HomeComponent implements OnInit {
 
   getnumberOfCountries(): Observable<number> {
     return this.numberOfCountries$ = this.olympicService.getNumberOfCountries();
+  }
+
+  onChartClick(event: any) {
+    if (event.active && event.active.length > 0) {
+      const chartElement = event.active[0];
+      const index = chartElement.index;
+      const countryName = this.pieChartData.labels![index] as string;
+      this.router.navigate(['/detail'], { queryParams: { country: countryName } });
+    }
   }
 }

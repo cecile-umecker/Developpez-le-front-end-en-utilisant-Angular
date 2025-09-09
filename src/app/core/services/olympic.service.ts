@@ -37,8 +37,7 @@ export class OlympicService {
           totalMedals: country.participations.reduce(
             (total, p) => total + p.medalsCount,
             0
-          ),
-          id: country.id
+          )
         }));
       }),
     );
@@ -61,5 +60,14 @@ export class OlympicService {
         return uniqueYears.size;
       })
     );  
+  }
+
+  getCountryDetails(countryName: string) {
+    return this.olympics$.asObservable().pipe(
+      map((olympics) => {
+        if (!olympics) return null;
+        return olympics.find((country) => country.country === countryName) || null;
+      })
+    ); 
   }
 }

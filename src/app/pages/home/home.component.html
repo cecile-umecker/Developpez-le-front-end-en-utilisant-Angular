@@ -21,7 +21,8 @@
             [data]="pieChartData"
             [type]="pieChartType"
             [options]="pieChartOptions"
-            [plugins]="[labelConnectorPlugin]">
+            [plugins]="[labelConnectorPlugin]"
+            (chartClick)="onChartClick($event)">
     </canvas>
   </div>
 </div>
