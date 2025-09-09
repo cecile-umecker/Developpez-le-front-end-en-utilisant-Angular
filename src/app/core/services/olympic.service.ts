@@ -38,6 +38,7 @@ export class OlympicService {
             (total, p) => total + p.medalsCount,
             0
           ),
+          id: country.id
         }));
       }),
     );

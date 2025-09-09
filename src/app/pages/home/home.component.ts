@@ -74,11 +74,25 @@ export class HomeComponent implements OnInit {
         }
       },
       tooltip: {
+        enabled: true,
+        backgroundColor: '#04838f',
+        titleColor: '#ffffff',          // couleur du nom du pays
+        bodyColor: '#ffffff',           // couleur du texte
+        borderColor: '#04838f',
+        borderWidth: 1,
+        padding: 10,
+        displayColors: false,
+        bodyAlign: 'center',         // centre le texte de la 2e ligne
+        titleAlign: 'center', 
         callbacks: {
-          label: function (context) {
-            const label = context.label || '';
-            const value = context.raw || 0;
-            return `${label}: ${value}`;
+          title: (tooltipItems) => {
+            // 1ère ligne = nom du pays
+            return tooltipItems[0].label || '';
+          },
+          label: (tooltipItem) => {
+            const value = tooltipItem.raw || 0;
+            // 2ème ligne avec icône de médaille
+            return `🏅 ${value}`;
           }
         }
       }
