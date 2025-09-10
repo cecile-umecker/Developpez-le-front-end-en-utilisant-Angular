@@ -19,22 +19,29 @@
     <p>Total number of athletes</p>
     <span class="stats-value">{{ getTotalAthletes(country) }}</span>
   </div>
-</div>
-
-<!-- <div class="chart-wrapper">
+</div >
+<div class="chart-wrapper" *ngIf="medalByYear$ | async as lineData">
   <div class="chart-container">
-    <canvas baseChart
-            [data]="pieChartData"
-            [type]="pieChartType"
-            [options]="pieChartOptions"
-            [plugins]="[labelConnectorPlugin]"
-            (chartClick)="onChartClick($event)">
-    </canvas>
+    <ngx-charts-line-chart
+      [results]="lineData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showGridLines]="true"
+      [roundDomains]="true"
+      [animations]="true"
+      [tooltipDisabled]="true">
+    </ngx-charts-line-chart>
+    <p id="axis-label">Dates</p>
   </div>
 </div>
 
 
-<ng-container *ngIf="olympics$ | async as olympics">
+
+
+
+
+<!--<ng-container *ngIf="olympics$ | async as olympics">
   <div *ngIf="olympics === undefined">Chargement...</div>
   <div *ngIf="olympics === null">Erreur lors du chargement</div>
   <div *ngIf="olympics">
