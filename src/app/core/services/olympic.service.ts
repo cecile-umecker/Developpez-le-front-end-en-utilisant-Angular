@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 
@@ -24,50 +24,13 @@ export class OlympicService {
     );
   }
 
-  getOlympics() {
+  getOlympics(): Observable<Olympic[] | null | undefined> {
     return this.olympics$.asObservable();
   }
 
-  getTotalMedalsByCountry() {
-    return this.olympics$.asObservable().pipe(
-      map((olympics) => {
-        if (!olympics) return null; // ou undefined
-        return olympics.map((country) => ({
-          country: country.country,
-          totalMedals: country.participations.reduce(
-            (total, p) => total + p.medalsCount,
-            0
-          )
-        }));
-      }),
-    );
-  }
-
-  getNumberOfCountries() {
-    return this.olympics$.asObservable().pipe(
-      map((olympics) => (olympics ? olympics.length : 0))
-    );
-  }
-
-  getNumberOfJOs() {
-    return this.olympics$.asObservable().pipe(
-      map((olympics) => {
-        if (!olympics) return 0;
-        const uniqueYears = new Set<number>();
-        olympics.forEach((country) => {
-          country.participations.forEach((p) => uniqueYears.add(p.year));
-        });
-        return uniqueYears.size;
-      })
-    );  
-  }
-
-  getCountryDetails(countryName: string) {
-    return this.olympics$.asObservable().pipe(
-      map((olympics) => {
-        if (!olympics) return null;
-        return olympics.find((country) => country.country === countryName) || null;
-      })
+  getCountryDetails(countryName: string): Observable<Olympic | null> {
+    return this.olympics$.pipe(
+      map((olympics => olympics?.find(c => c.country === countryName) ?? null))
     ); 
   }
 }

@@ -14,18 +14,20 @@
     <span class="stats-value">{{ numberOfCountries$ | async }}</span>
   </div>
 </div>
-
-<div class="chart-wrapper">
-  <div class="chart-container">
-    <canvas baseChart
-            [data]="pieChartData"
-            [type]="pieChartType"
-            [options]="pieChartOptions"
-            [plugins]="[labelConnectorPlugin]"
-            (chartClick)="onChartClick($event)">
-    </canvas>
+<ng-container *ngIf="pieChartData$ | async as pieChartData">
+  <div class="chart-wrapper">
+    <div class="chart-container">
+      <canvas baseChart
+              [data]="pieChartData"
+              [type]="pieChartType"
+              [options]="pieChartOptions"
+              [plugins]="[labelConnectorPlugin]"
+              (chartClick)="onChartClick($event, pieChartData)">
+      </canvas>
+    </div>
   </div>
-</div>
+</ng-container>
+
 
 
 <ng-container *ngIf="olympics$ | async as olympics">

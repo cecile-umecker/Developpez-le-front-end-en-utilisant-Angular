@@ -3,22 +3,23 @@
 <hr />
 <button (click)="goBack()"> <- Retour</button>
 
-<div class="subtitle">
-  <p>{{ country }}</p>
+<div class="subtitle" *ngIf="country$ | async as country">
+  <p>{{ country.country }}</p>
 </div>
 
-<div class="statistics">
+
+<div class="statistics" *ngIf="country$ | async as country">
   <div class="stats">
     <p>Number of entries</p>
-    <span class="stats-value">{{ numberOfParticipations }}</span>
+    <span class="stats-value">{{ getNumberOfParticipations(country) }}</span>
   </div>
   <div class="stats">
     <p>Total number of medals</p>
-    <span class="stats-value">{{ totalNumberOfMedals }}</span>
+    <span class="stats-value">{{ getTotalMedals(country) }}</span>
   </div>
   <div class="stats">
     <p>Total number of athletes</p>
-    <span class="stats-value">{{ totalNumberOfAthletes }}</span>
+    <span class="stats-value">{{ getTotalAthletes(country) }}</span>
   </div>
 </div>
 

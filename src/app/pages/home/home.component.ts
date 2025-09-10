@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ChartType, ChartData, ChartConfiguration } from 'chart.js';
@@ -12,13 +12,13 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   public olympics$!: Observable<Olympic[] | null | undefined>;
-  public medalsByCountry$!: Observable<{ country: string; totalMedals: number; id: number }[] | null | undefined>;
-  public pieChartLabels: string[] = [];
-  public pieChartData: ChartData<'pie', number[], string> = {
-    labels: [],
-    datasets: [{ data: []}]
-  };  
+  public medalsByCountry$!: Observable<{ country: string; totalMedals: number }[]>;
+  public numberOfJOs$!: Observable<number>;
+  public numberOfCountries$!: Observable<number>;
+  public pieChartData$!: Observable<ChartData<'pie', number[], string>>;
+
   public pieChartType: ChartType = 'pie';
+  
   public labelConnectorPlugin = {
     id: 'labelConnector',
     afterDraw: (chart: any) => {
@@ -99,23 +99,42 @@ export class HomeComponent implements OnInit {
       }
     },
   };
-  public numberOfJOs$!: Observable<number>;
-  public numberOfCountries$!: Observable<number>;
-
 
   constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
-   // this.olympics$ = this.olympicService.getOlympics();
     this.olympicService.loadInitialData().subscribe();
-    this.olympicService.getTotalMedalsByCountry().subscribe((data) => {
-      if (data) {
-        console.log(data);
-        this.pieChartLabels = data.map(d => d.country);
-        this.pieChartData = {
-          labels: data.map(d => d.country),
-          datasets: [{ 
-            data: data.map(d => d.totalMedals), 
+    this.olympics$ = this.olympicService.getOlympics();
+    this.medalsByCountry$ = this.olympics$.pipe(
+      map(olympics =>
+        olympics
+          ? olympics.map(c => ({
+              country: c.country,
+              totalMedals: c.participations.reduce((t, p) => t + p.medalsCount, 0)
+            }))
+          : []
+      )
+    );
+
+    this.numberOfCountries$ = this.olympics$.pipe(
+      map(olympics => olympics?.length ?? 0)
+    );
+
+    this.numberOfJOs$ = this.olympics$.pipe(
+      map(olympics => {
+        if (!olympics) return 0;
+        const years = new Set<number>();
+        olympics.forEach(c => c.participations.forEach(p => years.add(p.year)));
+        return years.size;
+      })
+    );
+
+    this.pieChartData$ = this.medalsByCountry$.pipe(
+      map(data => ({
+        labels: data.map(d => d.country),
+        datasets: [
+          {
+            data: data.map(d => d.totalMedals),
             backgroundColor: [
               '#783c51',
               '#945f64',
@@ -125,28 +144,16 @@ export class HomeComponent implements OnInit {
               '#9780a1'
             ],
             borderWidth: 0
-          }]
-        };
-      }
-    });
-
-    this.getnumberOfCountries();
-    this.getnumberOfJOs();
+          }
+        ]
+      }))
+    );
   }
   
-  getnumberOfJOs(): Observable<number> {
-    return this.numberOfJOs$ = this.olympicService.getNumberOfJOs();
-  }
-
-  getnumberOfCountries(): Observable<number> {
-    return this.numberOfCountries$ = this.olympicService.getNumberOfCountries();
-  }
-
-  onChartClick(event: any) {
-    if (event.active && event.active.length > 0) {
-      const chartElement = event.active[0];
-      const index = chartElement.index;
-      const countryName = this.pieChartData.labels![index] as string;
+  onChartClick(event: any, chartData: ChartData<'pie', number[], string>): void {
+    if (event.active?.length > 0) {
+      const index = event.active[0].index;
+      const countryName = chartData.labels![index] as string;
       this.router.navigate(['/detail'], { queryParams: { country: countryName } });
     }
   }
