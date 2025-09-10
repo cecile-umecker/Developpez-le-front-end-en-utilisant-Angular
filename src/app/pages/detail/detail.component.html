@@ -1,13 +1,11 @@
 
 <h2 class="title">Olympic games app</h2>
 <hr />
-<button (click)="goBack()"> <- Retour</button>
+<p id="goBackButton" (click)="goBack()"> <i class="fa-solid fa-arrow-left"></i> Go Back</p>
 
 <div class="subtitle" *ngIf="country$ | async as country">
   <p>{{ country.country }}</p>
 </div>
-
-
 <div class="statistics" *ngIf="country$ | async as country">
   <div class="stats">
     <p>Number of entries</p>

@@ -8,7 +8,7 @@ import { Olympic } from 'src/app/core/models/Olympic';
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
-  styleUrl: './detail.component.scss'
+  styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
   public country$!: Observable<Olympic | null>;

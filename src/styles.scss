@@ -46,17 +46,3 @@
   font-weight: bold;
   margin-top: 0.3rem;
 }
-
-.chart-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.chart-container {
-  position: relative;
-  width: 100%;
-  max-width: 500px; /* limite la taille max */
-  max-height: 800px;
-  margin: 0 auto;
-}
