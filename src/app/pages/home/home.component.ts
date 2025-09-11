@@ -1,3 +1,13 @@
+/**
+ * HomeComponent is the main component for the home page of the application.
+ * It displays Olympic data, including the number of countries, number of Olympic Games,
+ * and a pie chart of medals by country.
+ *
+ * @remarks
+ * - Fetches Olympic data from OlympicService on initialization.
+ * - Computes derived statistics such as medals by country, number of countries, and number of Olympic Games.
+ * - Handles chart selection to navigate to the detail page for a selected country.
+ */
 import { Component, OnInit } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
@@ -43,7 +53,7 @@ export class HomeComponent implements OnInit {
     this.numberOfCountries$ = this.olympics$.pipe(
       map(olympics => olympics?.length ?? 0)
     );
-
+    
     this.numberOfJOs$ = this.olympics$.pipe(
       map(olympics => {
         if (!olympics) return 0;
@@ -52,7 +62,6 @@ export class HomeComponent implements OnInit {
         return years.size;
       })
     );
-
   }
     
   onChartSelect(event: any): void {

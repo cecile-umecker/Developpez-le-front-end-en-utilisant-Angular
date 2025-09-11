@@ -1,3 +1,13 @@
+/**
+ * Service for managing Olympic data.
+ * 
+ * This service provides methods to load, access, and query Olympic data from a local JSON file.
+ * It uses a BehaviorSubject to store and emit the current state of the Olympic data.
+ *
+ * @remarks
+ * - The data is loaded from './assets/mock/olympic.json'.
+ * - The service exposes observables for reactive data access.
+ */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';

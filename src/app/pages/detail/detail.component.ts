@@ -1,5 +1,14 @@
+/**
+ * Component responsible for displaying detailed information about a selected Olympic country.
+ *
+ * Fetches country details and participation statistics using the OlympicService,
+ * and displays them in the template.
+ *
+ * @remarks
+ * - Uses Angular's `ActivatedRoute` to get the selected country from query parameters.
+ * - Retrieves country details as an observable and transforms participation data for charting.
+ */
 import { Component, OnInit } from '@angular/core';
-import { Location, NgIf } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Observable, map } from 'rxjs';
@@ -16,7 +25,6 @@ export class DetailComponent implements OnInit {
   public medalByYear$!: Observable<Array<{ name: string; series: Array<{ name: string; value: number }> }>>;
 
   constructor(
-    private location: Location,
     private route: ActivatedRoute,
     private olympicService: OlympicService
   ) {}
@@ -43,7 +51,6 @@ export class DetailComponent implements OnInit {
     });
   }
 
-  // helpers pour le template
   public getNumberOfParticipations(country: Olympic | null): number {
     return country?.participations.length ?? 0;
   }
@@ -64,9 +71,5 @@ export class DetailComponent implements OnInit {
         0
       ) ?? 0
     );
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }
