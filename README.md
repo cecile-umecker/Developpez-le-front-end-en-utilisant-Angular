@@ -5,8 +5,8 @@ Web application developed with Angular 16 to visualize Olympic Games data. The d
 
 ## Installation and running
 ```bash
-git clone https://github.com/<your-username>/<project-name>.git
-cd <project-name>
+git clone https://github.com/cecile-umecker/Developpez-le-front-end-en-utilisant-Angular
+cd Developpez-le-front-end-en-utilisant-Angular
 npm install
 ng serve
 ```
