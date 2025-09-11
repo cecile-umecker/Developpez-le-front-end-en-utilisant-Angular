@@ -1,29 +1,31 @@
 # OlympicGamesStarter
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.3.
 
-Don't forget to install your node_modules before starting (`npm install`).
+Web application developed with Angular 16 to visualize Olympic Games data. The dashboard displays the number of medals per country and provides a detail page for each country. The interface is responsive for mobile, tablet, and desktop.
 
-## Development server
+## Installation and running
+```bash
+git clone https://github.com/<your-username>/<project-name>.git
+cd <project-name>
+npm install
+ng serve
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Then open http://localhost:4200 in your browser.
 
-## Build
+## Main features
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Dashboard with interactive chart showing medals per country
+- Detail page for each country with additional information and chart
+- Navigation between pages (Angular Routing)
+- Error handling and loading states for data
+- Strongly typed with TypeScript and using RxJS/Observables for HTTP requests
 
-## Where to start
+## Stack
 
-As you can see, an architecture has already been defined for the project. It is just a suggestion, you can choose to use your own. The predefined architecture includes (in addition to the default angular architecture) the following:
-
-- `components` folder: contains every reusable components
-- `pages` folder: contains components used for routing
-- `core` folder: contains the business logic (`services` and `models` folders)
-
-I suggest you to start by understanding this starter code. Pay an extra attention to the `app-routing.module.ts` and the `olympic.service.ts`.
-
-Once mastered, you should continue by creating the typescript interfaces inside the `models` folder. As you can see I already created two files corresponding to the data included inside the `olympic.json`. With your interfaces, improve the code by replacing every `any` by the corresponding interface.
-
-You're now ready to implement the requested features.
-
-Good luck!
+- [Angular 16](https://v16.angular.io/docs)
+- [TypeScript](https://www.typescriptlang.org/docs/)
+- [RxJS](https://rxjs.dev/guide/overview)
+- [ngx-charts](https://www.npmjs.com/package/@swimlane/ngx-charts) for charts
+- [Font Awesome](https://fontawesome.com/icons) for icons (loaded via CDN)
+- [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML) / [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS) (responsive design)
